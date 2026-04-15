@@ -1,0 +1,20 @@
+---
+detectors:
+  UncommunicativeVariableName:
+    enabled: true
+    accept:
+      - e
+      - ex
+  TooManyStatements:
+    max_statements: 15
+  LongMethod:
+    max_statements: 15
+  LongParameterList:
+    max_params: 4
+  DuplicateMethodCall:
+    enabled: true
+    max_calls: 2
+  FeatureEnvy:
+    enabled: true
+  UtilityFunction:
+    enabled: false
