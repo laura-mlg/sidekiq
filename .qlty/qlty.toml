@@ -1,0 +1,90 @@
+# This configuration was generated with the setup-qlty-toml skill.
+# For reference: https://docs.qlty.sh/qlty-toml
+config_version = "0"
+
+exclude_patterns = [
+  "vendor/**",
+  ".bundle/**",
+  "coverage/**",
+  "tmp/**",
+  "pkg/**",
+  "doc/**",
+  ".yardoc/**",
+]
+
+test_patterns = [
+  "**/test/**",
+  "**/*_test.rb",
+  "**/spec/**",
+  "**/*_spec.rb",
+]
+
+[smells]
+mode = "comment"
+
+# Required — points to the built-in Qlty plugin registry.
+[[source]]
+name = "default"
+default = true
+
+# Ruby linter — rubocop via Gemfile (includes rubocop-performance)
+# Linting-only: Style/* and Layout/* rules are moved to monitor via [[triage]] below
+[[plugin]]
+name = "rubocop"
+package_file = "Gemfile"
+package_filters = ["rubocop"]
+
+# Ruby code smell detection — .reek.yml present in repo root
+[[plugin]]
+name = "reek"
+config_files = [".reek.yml"]
+
+# Secrets detection — block immediately
+[[plugin]]
+name = "trufflehog"
+mode = "block"
+
+# Markdown linting — .md files present
+[[plugin]]
+name = "markdownlint"
+
+# YAML linting — many .yml files present in repo
+[[plugin]]
+name = "yamllint"
+
+# GitHub Actions workflow linting — .github/workflows/ present
+[[plugin]]
+name = "actionlint"
+
+# Triage: rubocop linting-only pattern
+# The team uses a separate formatter; Style/* and Layout/* rules are monitor-only.
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Style/StringLiterals"]
+set.mode = "monitor"
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Layout/LineLength"]
+set.mode = "monitor"
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Style/FrozenStringLiteralComment"]
+set.mode = "monitor"
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Style/Documentation"]
+set.mode = "monitor"
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Layout/IndentationWidth"]
+set.mode = "monitor"
+
+[[triage]]
+plugins = ["rubocop"]
+rules = ["Layout/TrailingWhitespace"]
+set.mode = "monitor"
